@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from todos.models import TodoList, TodoItem
-from django.forms import ModelForm
+from todos.forms import TodoListForm
 
 
 # Create your views here.
@@ -20,12 +20,12 @@ def detail_todo_list(request, id):
 
 def create_todo_list(request):
     if request.method == "POST":
-        form = ModelForm(request.POST)
+        form = TodoListForm(request.POST)
         if form.is_valid():
-            model_instance = form.save()
-            return redirect("todo_list_detail", id=TodoItem.id)
+            todo_list = form.save()
+            return redirect("todo_list_detail", id=todo_list.id)
     else:
-        form = ModelForm()
+        form = TodoListForm()
 
     context = {"form": form}
-    return render(request, "model_names/create.html", context)
+    return render(request, "todos/create.html", context)
