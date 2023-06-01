@@ -29,3 +29,30 @@ def create_todo_list(request):
 
     context = {"form": form}
     return render(request, "todos/create.html", context)
+
+
+def todo_list_update(request, id):
+    todo_list_updater = get_object_or_404(TodoList, id=id)
+    if request.method == "POST":
+        form = TodoListForm(request.POST, instance=todo_list_updater)
+        if form.is_valid():
+            todo_list = form.save()
+            return redirect("todo_list_detail", id=id)
+    else:
+        form = TodoListForm(instance=todo_list_updater)
+
+    context = {"form": form, "updater": todo_list_updater}
+    return render(request, "todos/update.html", context)
+
+
+def todo_list_delete(request, id):
+    model_instance = get_object_or_404(TodoList, id=id)
+    if request.method == "POST":
+        model_instance.delete()
+        return redirect("todo_list_list")
+
+    return render(request, "todos/delete.html")
+
+
+def todo_item_adder(request, id):
+    pass

@@ -12,6 +12,14 @@
     <main>
         <div>
             <h1>{{ todo_detail.name }}</h1>
+            <div>
+                <p>
+                    <a href="{% url 'todo_list_update' todo_detail.id %}">edit</a>
+                </p>
+                <p>
+                    <a href="{% url 'todo_list_delete' todo_detail.id %}">delete</a>
+                </p>
+            </div>
             <h2>Tasks</h2>
             <table>
                 <tr>
