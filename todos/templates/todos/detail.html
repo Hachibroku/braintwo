@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  </head>
 
-<body>
+  <body>
     <main>
-        <div>
-            <h1>{{ todo_detail.name }}</h1>
-            <div>
-                <p>
-                    <a href="{% url 'todo_list_update' todo_detail.id %}">edit</a>
-                </p>
-                <p>
-                    <a href="{% url 'todo_list_delete' todo_detail.id %}">delete</a>
-                </p>
-            </div>
-            <h2>Tasks</h2>
-            <table>
-                <tr>
-                    <th>Task</th>
-                    <th>Due date</th>
-                </tr>
-                {% for item in todo_detail.items.all %}
-                <tr>
-                    <td>{{ item.task }}</td>
-                    <td>{{ item.due_date }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+      <div>
+        <h1>{{ todo_detail.name }}</h1>
+        <div class="btn-container">
+          <p>
+            <a
+              href="{% url 'todo_list_update' todo_detail.id %}"
+              class="btn-primary"
+              >edit</a
+            >
+          </p>
+          <p>
+            <a
+              href="{% url 'todo_list_delete' todo_detail.id %}"
+              class="btn-primary"
+              >delete</a
+            >
+          </p>
         </div>
+        <h2>Tasks</h2>
+        <table>
+          <tr>
+            <th>Task</th>
+            <th>Due date</th>
+          </tr>
+          {% for item in todo_detail.items.all %}
+          <tr>
+            <td>{{ item.task }}</td>
+            <td>{{ item.due_date }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
     </main>
-</body>
-
+  </body>
 </html>
