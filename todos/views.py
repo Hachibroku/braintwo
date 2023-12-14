@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from todos.models import TodoList, TodoItem
-from todos.forms import TodoListForm
+from todos.forms import TodoListForm, TodoItemForm
 
 
 # Create your views here.
@@ -36,7 +36,7 @@ def todo_list_update(request, id):
     if request.method == "POST":
         form = TodoListForm(request.POST, instance=todo_list_updater)
         if form.is_valid():
-            todo_list = form.save()
+            form.save()
             return redirect("todo_list_detail", id=id)
     else:
         form = TodoListForm(instance=todo_list_updater)
@@ -54,5 +54,30 @@ def todo_list_delete(request, id):
     return render(request, "todos/delete.html")
 
 
-def todo_item_adder(request, id):
-    pass
+def todo_item_create(request):
+    if request.method == "POST":
+        form = TodoItemForm(request.POST)
+        if form.is_valid():
+            item = form.save()
+            return redirect("todo_list_detail", id=item.list.id)
+    else:
+        form = TodoItemForm()
+    context = {
+        "form": form,
+    }
+    return render(request, "todos/todo_item_create.html", context)
+
+
+def todo_item_update(request, id):
+    item = TodoItem.objects.get(id=id)
+    if request.method == "POST":
+        form = TodoItemForm(request.POST, instance=item)
+        if form.is_valid():
+            item = form.save()
+            return redirect("todo_list_detail", id=item.list.id)
+    else:
+        form = TodoItemForm(instance=item)
+    context = {
+        "form": form,
+    }
+    return render(request, "todos/todo_item_update.html", context)
